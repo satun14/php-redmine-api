@@ -1,14 +1,13 @@
 {
-    "name": "kbsali/redmine-api",
+    "name": "satun14/redmine-api",
     "type": "library",
     "description": "Redmine API client",
-    "homepage": "https://github.com/kbsali/php-redmine-api",
+    "homepage": "https://github.com/satun14/php-redmine-api",
     "keywords": ["redmine", "api"],
     "license": "MIT",
     "authors": [{
-        "name": "Kevin Saliou",
-        "email": "kevin@saliou.name",
-        "homepage": "http://kevin.saliou.name"
+        "name": "Alexandr Tuncov",
+        "email": "al.tuncov@gmail.com"
     }],
     "require": {
         "php": "^5.4 || ^7.2",
