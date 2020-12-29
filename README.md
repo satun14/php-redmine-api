@@ -54,7 +54,7 @@ A possible solution to this would be to create an extra APIs implementing the mi
 [Composer](http://getcomposer.org/download/) users can simply run:
 
 ```bash
-$ php composer.phar require kbsali/redmine-api:~1.0
+$ composer require satun14/redmine-api
 ```
 
 at the root of their projects. To utilize the library, include
@@ -148,21 +148,20 @@ $client->issue->create([
 // OR
 
 $client->issue->create([
-            'ticket' => [
-                'issue' => [
-                    'project_id' => 'test',
-                    'tracker_id' => '1',
-                    'status_id' => '1',
-                    'subject' => 'subject',
-                    'description' => 'description',
-                ],
-                'contact' => [
-                    'email' => 'test@mail.com',
-                    'first_name' => 'first name'
-                ]
-            ]
-        ], '/helpdesk/create_ticket.xml'
-);
+    'ticket' => [
+        'issue' => [
+            'project_id' => 'test',
+            'tracker_id' => '1',
+            'status_id' => '1',
+            'subject' => 'subject',
+            'description' => 'description',
+        ],
+        'contact' => [
+            'email' => 'test@mail.com',
+            'first_name' => 'first name'
+        ]
+    ]
+], '/helpdesk/create_ticket.xml');
 
 $client->issue->all([
     'limit' => 1000
