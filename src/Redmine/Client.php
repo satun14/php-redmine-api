@@ -663,7 +663,7 @@ class Client
     {
         if ($response) {
             // if response is XML, return an SimpleXMLElement object
-            if (0 === strpos($contentType, 'application/xml')) {
+            if (0 === strpos($contentType, 'application/xml') && strpos($response, '?xml')) {
                 return new \SimpleXMLElement($response);
             }
 
