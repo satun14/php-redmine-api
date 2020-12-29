@@ -28,13 +28,6 @@ Uses [Redmine API](http://www.redmine.org/projects/redmine/wiki/Rest_api/).
 * OK Versions
 * OK Wiki
 
-## Todo
-
-* Check header's response code (especially for POST/PUT/DELETE requests)
-* See http://stackoverflow.com/questions/9183178/php-curl-retrieving-response-headers-and-body-in-a-single-request/9183272#9183272
-* Maybe Guzzle for handling http connections
-* https://github.com/guzzle/guzzle
-
 ## Limitations
 
 Redmine is missing some APIs for a full remote management of the data :
@@ -144,11 +137,33 @@ $client->user->all();
 $client->user->listing();
 
 $client->issue->create([
-    'project_id'  => 'test',
-    'subject'     => 'some subject',
-    'description' => 'a long description blablabla',
-    'assigned_to_id' => 123, // or 'assigned_to' => 'user1'
+    'issue' => [
+        'project_id'  => 'test',
+        'subject'     => 'some subject',
+        'description' => 'a long description blablabla',
+        'assigned_to_id' => 123, // or 'assigned_to' => 'user1'
+    ]
 ]);
+
+// OR
+
+$client->issue->create([
+            'ticket' => [
+                'issue' => [
+                    'project_id' => 'test',
+                    'tracker_id' => '1',
+                    'status_id' => '1',
+                    'subject' => 'subject',
+                    'description' => 'description',
+                ],
+                'contact' => [
+                    'email' => 'test@mail.com',
+                    'first_name' => 'first name'
+                ]
+            ]
+        ], '/helpdesk/create_ticket.xml'
+);
+
 $client->issue->all([
     'limit' => 1000
 ]);

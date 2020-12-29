@@ -66,13 +66,11 @@ class Issue extends AbstractApi
      * Build the XML for an issue.
      *
      * @param array $params for the new/updated issue data
-     *
+     * @param null $xml SimpleXMLElement
      * @return \SimpleXMLElement
      */
-    private function buildXML(array $params = [])
+    private function buildXML(array $params = [], $xml = null)
     {
-        $xml = new \SimpleXMLElement('<?xml version="1.0"?><issue></issue>');
-
         foreach ($params as $k => $v) {
             if ('custom_fields' === $k && is_array($v)) {
                 $this->attachCustomFieldXML($xml, $v);
@@ -91,6 +89,12 @@ class Issue extends AbstractApi
                         $upload_item->addChild($upload_k, $upload_v);
                     }
                 }
+            } elseif (is_array($v)) {
+                if (!($xml instanceof \SimpleXMLElement)) {
+                    $xml = $child = new \SimpleXMLElement("<?xml version=\"1.0\"?><{$k}></{$k}>");
+                } else $child = $xml->addChild($k, '');
+
+                $this->buildXML($v, $child);
             } else {
                 // "addChild" does not escape text for XML value, but the setter does.
                 // http://stackoverflow.com/a/555039/99904
@@ -108,10 +112,10 @@ class Issue extends AbstractApi
      * @see http://www.redmine.org/projects/redmine/wiki/Rest_Issues#Creating-an-issue
      *
      * @param array $params the new issue data
-     *
-     * @return \SimpleXMLElement
+     * @param string $path xml request path
+     * @return false|\SimpleXMLElement|string
      */
-    public function create(array $params = [])
+    public function create(array $params = [], $path = '/issues.xml')
     {
         $defaults = [
             'subject' => null,
@@ -133,7 +137,7 @@ class Issue extends AbstractApi
 
         $xml = $this->buildXML($params);
 
-        return $this->post('/issues.xml', $xml->asXML());
+        return $this->post($path, $xml->asXML());
     }
 
     /**
